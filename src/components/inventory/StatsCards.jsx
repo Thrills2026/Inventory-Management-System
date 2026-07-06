@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Package, Layers, ShoppingBag, DollarSign } from "lucide-react";
+import { Package, Layers, ShoppingBag, DollarSign, Wallet } from "lucide-react";
 
 function StatCard({ icon: Icon, label, value, delay }) {
   return (
@@ -33,7 +33,7 @@ export default function StatsCards({ items }) {
       <StatCard icon={Layers} label="Total Quantity" value={totalQuantity.toLocaleString()} delay={0.05} />
       <StatCard icon={ShoppingBag} label="Total Bags" value={totalBags.toLocaleString()} delay={0.1} />
       <StatCard
-        icon={DollarSign}
+        icon={Wallet}
         label="Total Inventory Value"
         value={`Rs ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
         delay={0.15}
