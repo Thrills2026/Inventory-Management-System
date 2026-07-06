@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'url'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Thrills-Dashboard/',
+  base: '/Inventory-Management-System/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
