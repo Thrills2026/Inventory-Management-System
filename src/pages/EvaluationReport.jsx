@@ -67,9 +67,9 @@ export default function EvaluationReport() {
             >
               <p className="font-medium text-foreground truncate">{item.item_name}</p>
               <p className="text-sm sm:text-base text-muted-foreground whitespace-nowrap">
-                {item.quantity} &times; Rs {Number(item.price).toLocaleString()} ={" "}
+                {item.quantity} &times; PKR {Number(item.price).toLocaleString()} ={" "}
                 <span className="text-foreground font-semibold">
-                  Rs {Number(item.evaluation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                  PKR {Number(item.evaluation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                 </span>
               </p>
             </motion.div>
@@ -80,7 +80,7 @@ export default function EvaluationReport() {
       <div className="bg-foreground text-background rounded-2xl p-6 flex items-center justify-between">
         <p className="font-display font-semibold text-lg">Grand Total Inventory Value</p>
         <p className="font-display font-semibold text-2xl">
-          Rs {grandTotal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+          PKR {grandTotal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
         </p>
       </div>
     </div>

@@ -121,7 +121,7 @@ export default function ItemFormModal({ open, onOpenChange, item, onSave, saving
           <div>
             <label className="text-sm font-medium text-foreground mb-1.5 block">Evaluation (auto-calculated)</label>
             <div className="w-full px-3.5 py-2.5 rounded-xl bg-secondary text-foreground font-medium">
-              Rs {evaluation.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+              PKR {evaluation.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </div>
           </div>
 

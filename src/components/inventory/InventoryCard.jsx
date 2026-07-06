@@ -49,9 +49,9 @@ export default function InventoryCard({ item, onEdit, onDelete }) {
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
           <p className="text-muted-foreground">Qty: <span className="text-foreground font-medium">{item.quantity}</span></p>
-          <p className="text-muted-foreground">Price: <span className="text-foreground font-medium">Rs {Number(item.price).toLocaleString()}</span></p>
+          <p className="text-muted-foreground">Price: <span className="text-foreground font-medium">PKR {Number(item.price).toLocaleString()}</span></p>
           <p className="text-muted-foreground">Bags: <span className="text-foreground font-medium">{item.number_of_bags}</span></p>
-          <p className="text-muted-foreground">Value: <span className="text-foreground font-medium">Rs {Number(item.evaluation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></p>
+          <p className="text-muted-foreground">Value: <span className="text-foreground font-medium">PKR {Number(item.evaluation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></p>
         </div>
         <p className="text-xs text-muted-foreground pt-1">
           {item.date_added} &middot; {item.time_added}

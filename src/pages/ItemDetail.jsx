@@ -122,8 +122,8 @@ export default function ItemDetail() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <Field label="Quantity" value={item.quantity} />
-            <Field label="Price" value={`Rs ${Number(item.price).toLocaleString()}`} />
-            <Field label="Evaluation" value={`Rs ${Number(item.evaluation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`} />
+            <Field label="Price" value={`PKR ${Number(item.price).toLocaleString()}`} />
+            <Field label="Evaluation" value={`PKR ${Number(item.evaluation).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`} />
             <Field label="Number of Bags" value={item.number_of_bags} />
             <Field label="Items per Bag" value={item.items_in_each_bag ?? "—"} />
             <Field label="Date Added" value={`${item.date_added || "—"} ${item.time_added || ""}`} />

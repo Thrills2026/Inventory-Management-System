@@ -35,7 +35,7 @@ export default function StatsCards({ items }) {
       <StatCard
         icon={DollarSign}
         label="Total Inventory Value"
-        value={`Rs PKR {totalValue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
+        value={`Rs ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
         delay={0.15}
       />
     </div>
