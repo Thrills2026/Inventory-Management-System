@@ -9,15 +9,14 @@ import { ThemeProvider } from '@/lib/ThemeContext';
 import { SearchProvider } from '@/lib/SearchContext';
 import AuthGate from '@/lib/AuthGate';
 import AppLayout from '@/components/layout/AppLayout';
-// Add page imports here
 import Dashboard from '@/pages/Dashboard';
 import ItemDetail from '@/pages/ItemDetail';
 import EvaluationReport from '@/pages/EvaluationReport';
+import { Toaster } from "@/components/ui/toaster";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
@@ -26,21 +25,17 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
   if (authError) {
-    if (authError.type === 'user_not_registered') {
+    if (authError.type === 'user\u005Fnot\u005Fregistered') {
       return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
+    } else if (authError.type === 'auth\u005Frequired') {
       navigateToLogin();
       return null;
     }
   }
 
-  // Render the main app
   return (
     <Routes>
-      {/* Add your page Route elements here */}
       <Route element={<AppLayout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/item/:id" element={<ItemDetail />} />
@@ -59,7 +54,7 @@ function App() {
       <QueryClientProvider client={queryClientInstance}>
         <ThemeProvider>
           <SearchProvider>
-            <Router>
+            <Router basename="/Thrills-Dashboard/">
               <ScrollToTop />
               <AuthGate>
                 <AuthenticatedApp />
