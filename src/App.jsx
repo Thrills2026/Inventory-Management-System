@@ -12,7 +12,6 @@ import AppLayout from '@/components/layout/AppLayout';
 import Dashboard from '@/pages/Dashboard';
 import ItemDetail from '@/pages/ItemDetail';
 import EvaluationReport from '@/pages/EvaluationReport';
-import { Toaster } from "@/components/ui/toaster";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -60,7 +59,6 @@ function App() {
                 <AuthenticatedApp />
               </AuthGate>
             </Router>
-            <Toaster />
           </SearchProvider>
         </ThemeProvider>
       </QueryClientProvider>
