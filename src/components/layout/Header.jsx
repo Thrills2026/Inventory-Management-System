@@ -55,13 +55,6 @@ export default function Header() {
             >
               {theme === "dark" ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
             </button>
-            <button
-              onClick={handleLogout}
-              className="p-2.5 rounded-full hover:bg-secondary transition-colors text-foreground"
-              aria-label="Logout"
-            >
-              <LogOut className="w-4.5 h-4.5" />
-            </button>
           </div>
         </div>
         <Link
