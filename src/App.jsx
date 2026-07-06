@@ -12,6 +12,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import Dashboard from '@/pages/Dashboard';
 import ItemDetail from '@/pages/ItemDetail';
 import EvaluationReport from '@/pages/EvaluationReport';
+import { Toaster } from "@/components/ui/toaster";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -45,20 +46,19 @@ const AuthenticatedApp = () => {
   );
 };
 
-
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <ThemeProvider>
           <SearchProvider>
-            <Router basename="/Thrills-Dashboard/">
+            <Router basename="/Inventory-Management-System/">
               <ScrollToTop />
               <AuthGate>
                 <AuthenticatedApp />
               </AuthGate>
             </Router>
+            <Toaster />
           </SearchProvider>
         </ThemeProvider>
       </QueryClientProvider>
