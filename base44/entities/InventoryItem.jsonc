@@ -1,0 +1,71 @@
+{
+  "name": "InventoryItem",
+  "type": "object",
+  "properties": {
+    "item_name": {
+      "type": "string",
+      "description": "Name of the inventory item"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Quantity in stock (whole numbers)"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price per unit (decimal allowed)"
+    },
+    "evaluation": {
+      "type": "number",
+      "description": "Calculated as quantity x price"
+    },
+    "number_of_bags": {
+      "type": "number",
+      "description": "Number of bags"
+    },
+    "items_in_each_bag": {
+      "type": "number",
+      "description": "Items in each bag (optional)"
+    },
+    "media_url": {
+      "type": "string",
+      "description": "URL of uploaded image or video"
+    },
+    "media_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "none"
+      ],
+      "default": "none",
+      "description": "Type of uploaded media"
+    },
+    "comments": {
+      "type": "string",
+      "description": "Additional comments"
+    },
+    "date_added": {
+      "type": "string",
+      "description": "Date the item was added"
+    },
+    "time_added": {
+      "type": "string",
+      "description": "Time the item was added"
+    },
+    "last_modified_date": {
+      "type": "string",
+      "description": "Date the item was last modified"
+    },
+    "last_modified_time": {
+      "type": "string",
+      "description": "Time the item was last modified"
+    }
+  },
+  "required": [
+    "item_name",
+    "quantity",
+    "price",
+    "evaluation",
+    "number_of_bags"
+  ]
+}
