@@ -12,7 +12,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import Dashboard from '@/pages/Dashboard';
 import ItemDetail from '@/pages/ItemDetail';
 import EvaluationReport from '@/pages/EvaluationReport';
-import { Toaster } from "@/components/ui/toaster";
+import PublicItemView from '@/pages/PublicItemView';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -47,6 +47,19 @@ const AuthenticatedApp = () => {
 };
 
 function App() {
+  // Agar URL mein ?view= mojood hai tou public page dikhaye ga (bina password kay)
+  const viewId = new URLSearchParams(window.location.search).get('view');
+
+  if (viewId) {
+    return (
+      <QueryClientProvider client={queryClientInstance}>
+        <ThemeProvider>
+          <PublicItemView itemId={viewId} />
+        </ThemeProvider>
+      </QueryClientProvider>
+    );
+  }
+
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
@@ -58,7 +71,6 @@ function App() {
                 <AuthenticatedApp />
               </AuthGate>
             </Router>
-            <Toaster />
           </SearchProvider>
         </ThemeProvider>
       </QueryClientProvider>

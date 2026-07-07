@@ -1,10 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Pencil, Trash2, ImageIcon, PlayCircle, Package2 } from "lucide-react";
+import { Pencil, Trash2, ImageIcon, PlayCircle, Package2, Share2 } from "lucide-react";
 
 export default function InventoryCard({ item, onEdit, onDelete }) {
   const inStock = Number(item.quantity) > 0;
+
+  const handleShare = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const link = `${window.location.origin}/Inventory-Management-System/?view=${item.id}`;
+    navigator.clipboard.writeText(link);
+    alert("Public link copied to clipboard!");
+  };
 
   return (
     <motion.div
@@ -65,6 +73,16 @@ export default function InventoryCard({ item, onEdit, onDelete }) {
           >
             <Pencil className="w-4 h-4" />
           </button>
+          
+          <button
+            onClick={handleShare}
+            className="p-2 rounded-lg hover:bg-secondary transition-colors text-foreground"
+            aria-label="Share"
+            title="Copy Public Link"
+          >
+            <Share2 className="w-4 h-4" />
+          </button>
+
           <button
             onClick={() => onDelete(item)}
             className="p-2 rounded-lg hover:bg-destructive/10 transition-colors text-destructive"

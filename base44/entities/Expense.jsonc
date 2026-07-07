@@ -1,0 +1,26 @@
+{
+  "name": "Expense",
+  "type": "object",
+  "properties": {
+    "expenseName": {
+      "type": "string",
+      "description": "Name of the expense"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Expense amount"
+    },
+    "date": {
+      "type": "string",
+      "description": "Date of the expense"
+    },
+    "comments": {
+      "type": "string",
+      "description": "Additional comments"
+    }
+  },
+  "required": [
+    "expenseName",
+    "amount"
+  ]
+}
