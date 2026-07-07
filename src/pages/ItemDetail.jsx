@@ -18,7 +18,6 @@ export default function ItemDetail() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Dispatch States
   const [dispatchModalOpen, setDispatchModalOpen] = useState(false);
   const [editingDispatch, setEditingDispatch] = useState(null);
 
@@ -55,10 +54,9 @@ export default function ItemDetail() {
   const handleShare = () => {
     const link = `${window.location.origin}/Inventory-Management-System/?view=${item.id}`;
     navigator.clipboard.writeText(link);
-    alert("Public link copied to clipboard!");
+    // Alert popup remove kar diya gaya hai
   };
 
-  // Dispatch Handlers
   const handleSaveDispatch = async (dispatchData) => {
     const historyList = item.dispatch_history || [];
     let newHistory = [];
@@ -87,9 +85,11 @@ export default function ItemDetail() {
     }
 
     const newMainQuantity = Number(item.quantity || 0) + quantityDifference;
+    const newMainEvaluation = newMainQuantity * Number(item.price || 0); // Evaluation theek calculation
 
     await base44.entities.InventoryItem.update(item.id, {
       quantity: newMainQuantity,
+      evaluation: newMainEvaluation, // Database mein nayi value save hogi
       dispatch_history: newHistory
     });
     
@@ -103,10 +103,13 @@ export default function ItemDetail() {
     const historyList = item.dispatch_history || [];
     const entryToDelete = historyList.find(h => h.id === dispatchId);
     const newHistory = historyList.filter(h => h.id !== dispatchId);
+    
     const newMainQuantity = Number(item.quantity || 0) + Number(entryToDelete.pieces);
+    const newMainEvaluation = newMainQuantity * Number(item.price || 0);
 
     await base44.entities.InventoryItem.update(item.id, {
       quantity: newMainQuantity,
+      evaluation: newMainEvaluation, // History delete honay par bhi evaluation theek hogi
       dispatch_history: newHistory
     });
     
@@ -219,7 +222,6 @@ export default function ItemDetail() {
             </div>
           )}
 
-          {/* Dispatch History Section */}
           <div className="pt-6 border-t border-border mt-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-display font-semibold text-foreground">Dispatch History</h2>

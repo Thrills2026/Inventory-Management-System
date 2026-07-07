@@ -59,6 +59,10 @@
     "last_modified_time": {
       "type": "string",
       "description": "Time the item was last modified"
+    },
+    "dispatchHistory": {
+      "type": "string",
+      "description": "JSON string of dispatch history records"
     }
   },
   "required": [

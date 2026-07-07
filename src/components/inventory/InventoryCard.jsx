@@ -11,7 +11,7 @@ export default function InventoryCard({ item, onEdit, onDelete }) {
     e.stopPropagation();
     const link = `${window.location.origin}/Inventory-Management-System/?view=${item.id}`;
     navigator.clipboard.writeText(link);
-    alert("Public link copied to clipboard!");
+    // Alert popup remove kar diya gaya hai
   };
 
   return (
