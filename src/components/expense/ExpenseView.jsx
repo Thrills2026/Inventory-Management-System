@@ -2,21 +2,39 @@ import React, { useState, useMemo } from "react";
 import { Edit2, Trash2, Plus, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useSearch } from "@/lib/SearchContext";
 
 export default function ExpenseView({ expenses, onAdd, onEdit, onDelete }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  
+  // Search context ko yahan import kar liya gaya hai
+  const { searchTerm } = useSearch();
 
   const filteredExpenses = useMemo(() => {
     let result = expenses;
+    
+    // Date Filters
     if (fromDate) result = result.filter(e => e.date >= fromDate);
     if (toDate) result = result.filter(e => e.date <= toDate);
+    
+    // Search Filter by Name
+    if (searchTerm && searchTerm.trim() !== "") {
+      result = result.filter(e => 
+        e.expenseName.toLowerCase().includes(searchTerm.trim().toLowerCase())
+      );
+    }
+    
     return result.sort((a, b) => new Date(b.date) - new Date(a.date));
-  }, [expenses, fromDate, toDate]);
+  }, [expenses, fromDate, toDate, searchTerm]);
 
+  // Total expense ab hamesha filtered result ka hi sum nikalay ga
   const totalExpense = filteredExpenses.reduce((sum, item) => sum + Number(item.amount), 0);
 
-  const clearFilters = () => { setFromDate(""); setToDate(""); };
+  const clearFilters = () => { 
+    setFromDate(""); 
+    setToDate(""); 
+  };
 
   return (
     <div className="space-y-6">
@@ -59,7 +77,11 @@ export default function ExpenseView({ expenses, onAdd, onEdit, onDelete }) {
                 </tr>
               ))}
               {filteredExpenses.length === 0 && (
-                <tr><td colSpan="5" className="text-center py-8 text-muted-foreground">No expenses found for selected dates.</td></tr>
+                <tr>
+                  <td colSpan="5" className="text-center py-8 text-muted-foreground">
+                    No expenses found for selected filters or search.
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
