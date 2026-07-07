@@ -1,17 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Pencil, Trash2, ImageIcon, PlayCircle, Package2, Share2 } from "lucide-react";
+import { Pencil, Trash2, PlayCircle, Package2, Share2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function InventoryCard({ item, onEdit, onDelete }) {
   const inStock = Number(item.quantity) > 0;
+  const { toast } = useToast();
 
   const handleShare = (e) => {
     e.preventDefault();
     e.stopPropagation();
     const link = `${window.location.origin}/Inventory-Management-System/?view=${item.id}`;
     navigator.clipboard.writeText(link);
-    // Alert popup remove kar diya gaya hai
+    toast({
+      title: "Link Copied!",
+      description: "Public link is ready to share.",
+      duration: 2000,
+    });
   };
 
   return (

@@ -60,7 +60,7 @@
       "type": "string",
       "description": "Time the item was last modified"
     },
-    "dispatchHistory": {
+    "dispatch_history": {
       "type": "string",
       "description": "JSON string of dispatch history records"
     }

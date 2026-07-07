@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Loader2, ArrowLeft, Pencil, Trash2, Package2, Share2, Send } from "lucide-react";
 import { motion } from "framer-motion";
+import { useToast } from "@/components/ui/use-toast";
 import ItemFormModal from "@/components/inventory/ItemFormModal";
 import DeleteConfirmDialog from "@/components/inventory/DeleteConfirmDialog";
 import DispatchModal from "@/components/inventory/DispatchModal";
@@ -10,6 +11,7 @@ import DispatchModal from "@/components/inventory/DispatchModal";
 export default function ItemDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -54,18 +56,33 @@ export default function ItemDetail() {
   const handleShare = () => {
     const link = `${window.location.origin}/Inventory-Management-System/?view=${item.id}`;
     navigator.clipboard.writeText(link);
-    // Alert popup remove kar diya gaya hai
+    toast({
+      title: "Link Copied!",
+      description: "Public link is ready to share.",
+      duration: 2000,
+    });
   };
 
+  // History ko safe tareeqay say read karna
+  let dispatchHistory = [];
+  if (item && item.dispatch_history) {
+    try {
+      dispatchHistory = typeof item.dispatch_history === 'string' 
+        ? JSON.parse(item.dispatch_history) 
+        : item.dispatch_history;
+    } catch (e) {
+      dispatchHistory = [];
+    }
+  }
+
   const handleSaveDispatch = async (dispatchData) => {
-    const historyList = item.dispatch_history || [];
     let newHistory = [];
     let quantityDifference = 0;
 
     if (editingDispatch) {
-      const oldEntry = historyList.find(h => h.id === dispatchData.id);
+      const oldEntry = dispatchHistory.find(h => h.id === dispatchData.id);
       quantityDifference = Number(oldEntry.pieces) - Number(dispatchData.pieces);
-      newHistory = historyList.map(h => 
+      newHistory = dispatchHistory.map(h => 
         h.id === dispatchData.id 
         ? { ...h, shopName: dispatchData.shopName, pieces: dispatchData.pieces, evaluation: dispatchData.pieces * h.lockedPrice, date: dispatchData.date } 
         : h
@@ -80,17 +97,18 @@ export default function ItemDetail() {
         evaluation: dispatchData.pieces * lockedPrice,
         date: dispatchData.date
       };
-      newHistory = [...historyList, newEntry];
+      newHistory = [...dispatchHistory, newEntry];
       quantityDifference = -Number(dispatchData.pieces);
     }
 
     const newMainQuantity = Number(item.quantity || 0) + quantityDifference;
-    const newMainEvaluation = newMainQuantity * Number(item.price || 0); // Evaluation theek calculation
+    const newMainEvaluation = newMainQuantity * Number(item.price || 0); 
 
+    // History ko string bana kar save karna taa kay base44 error na day
     await base44.entities.InventoryItem.update(item.id, {
       quantity: newMainQuantity,
-      evaluation: newMainEvaluation, // Database mein nayi value save hogi
-      dispatch_history: newHistory
+      evaluation: newMainEvaluation,
+      dispatch_history: JSON.stringify(newHistory) 
     });
     
     setEditingDispatch(null);
@@ -100,17 +118,16 @@ export default function ItemDetail() {
   const handleDeleteDispatch = async (dispatchId) => {
     if(!window.confirm("Are you sure you want to delete this dispatch record? Quantity will be returned to stock.")) return;
     
-    const historyList = item.dispatch_history || [];
-    const entryToDelete = historyList.find(h => h.id === dispatchId);
-    const newHistory = historyList.filter(h => h.id !== dispatchId);
+    const entryToDelete = dispatchHistory.find(h => h.id === dispatchId);
+    const newHistory = dispatchHistory.filter(h => h.id !== dispatchId);
     
     const newMainQuantity = Number(item.quantity || 0) + Number(entryToDelete.pieces);
     const newMainEvaluation = newMainQuantity * Number(item.price || 0);
 
     await base44.entities.InventoryItem.update(item.id, {
       quantity: newMainQuantity,
-      evaluation: newMainEvaluation, // History delete honay par bhi evaluation theek hogi
-      dispatch_history: newHistory
+      evaluation: newMainEvaluation, 
+      dispatch_history: JSON.stringify(newHistory)
     });
     
     loadItem();
@@ -134,7 +151,6 @@ export default function ItemDetail() {
   }
 
   const inStock = Number(item.quantity) > 0;
-  const dispatchHistory = item.dispatch_history || [];
 
   return (
     <div className="max-w-4xl mx-auto pb-12">
