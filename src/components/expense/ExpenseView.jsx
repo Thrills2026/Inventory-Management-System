@@ -1,15 +1,12 @@
 import React, { useState, useMemo } from "react";
-import { Edit2, Trash2, Plus, Calendar } from "lucide-react";
+import { Edit2, Trash2, Plus, Calendar, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSearch } from "@/lib/SearchContext";
 
 export default function ExpenseView({ expenses, onAdd, onEdit, onDelete }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  
-  // Search context ko yahan import kar liya gaya hai
-  const { searchTerm } = useSearch();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredExpenses = useMemo(() => {
     let result = expenses;
@@ -19,34 +16,50 @@ export default function ExpenseView({ expenses, onAdd, onEdit, onDelete }) {
     if (toDate) result = result.filter(e => e.date <= toDate);
     
     // Search Filter by Name
-    if (searchTerm && searchTerm.trim() !== "") {
+    if (searchQuery && searchQuery.trim() !== "") {
       result = result.filter(e => 
-        e.expenseName.toLowerCase().includes(searchTerm.trim().toLowerCase())
+        e.expenseName.toLowerCase().includes(searchQuery.trim().toLowerCase())
       );
     }
     
     return result.sort((a, b) => new Date(b.date) - new Date(a.date));
-  }, [expenses, fromDate, toDate, searchTerm]);
+  }, [expenses, fromDate, toDate, searchQuery]);
 
-  // Total expense ab hamesha filtered result ka hi sum nikalay ga
   const totalExpense = filteredExpenses.reduce((sum, item) => sum + Number(item.amount), 0);
 
   const clearFilters = () => { 
     setFromDate(""); 
     setToDate(""); 
+    setSearchQuery("");
   };
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 bg-card p-4 rounded-xl border border-border shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
+          
+          {/* Naya Search Bar Yahan Hai */}
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input 
+              type="text" 
+              placeholder="Search expenses..." 
+              className="pl-8 w-full sm:w-[200px]" 
+              value={searchQuery} 
+              onChange={e => setSearchQuery(e.target.value)} 
+            />
+          </div>
+
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-muted-foreground" />
             <Input type="date" className="w-auto" value={fromDate} onChange={e => setFromDate(e.target.value)} />
             <span className="text-muted-foreground">to</span>
             <Input type="date" className="w-auto" value={toDate} onChange={e => setToDate(e.target.value)} />
           </div>
-          {(fromDate || toDate) && <Button variant="ghost" onClick={clearFilters}>Clear</Button>}
+
+          {(fromDate || toDate || searchQuery) && (
+            <Button variant="ghost" onClick={clearFilters}>Clear All</Button>
+          )}
         </div>
         <Button onClick={onAdd}><Plus className="w-4 h-4 mr-2" /> Add Expense</Button>
       </div>
