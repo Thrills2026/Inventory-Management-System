@@ -3,7 +3,6 @@ import React, { createContext, useState, useContext } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // Hum in sab ko simple states mein rakh rahay hain taa kay app bina error kay chalay
   const [user] = useState({ role: 'admin', name: 'Admin' });
   const [isAuthenticated] = useState(true);
   const [isLoadingAuth] = useState(false);
