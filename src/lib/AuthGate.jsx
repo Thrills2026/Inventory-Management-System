@@ -3,7 +3,7 @@ import { Lock, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const STORAGE_KEY = "thrills_unlocked";
-const APP_PASSWORD = "admin";
+const APP_PASSWORD = "Ahmadijaz123$";
 
 export default function AuthGate({ children }) {
   const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(STORAGE_KEY) === "true");
